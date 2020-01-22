@@ -26,13 +26,13 @@ public class GlobalExceptionHandler {
         if (ex instanceof ErrorCodeException) {
             ErrorCodeException e = (ErrorCodeException) ex;
             log.warn("[{}]接口异常[{}]", request.getRequestURI(), e.getMessage());
-            message.setErrorCode(e.getCode());
-            message.setErrorMsg(e.getMessage());
+            message.setStatus(e.getCode());
+            message.setMsg(e.getMessage());
             return message;
         }
         log.error("[{}]系统异常", request.getRequestURI(), ex);
-        message.setErrorCode(ErrorCodeEnum.ERROR.getCode());
-        message.setErrorMsg(ErrorCodeEnum.ERROR.getMessage());
+        message.setStatus(ErrorCodeEnum.ERROR.getCode());
+        message.setMsg(ErrorCodeEnum.ERROR.getMessage());
         return message;
     }
 }

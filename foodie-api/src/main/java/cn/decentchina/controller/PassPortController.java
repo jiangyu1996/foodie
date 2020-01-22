@@ -9,10 +9,7 @@ import cn.decentchina.pojo.User;
 import cn.decentchina.utils.MD5Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,27 +18,28 @@ import javax.servlet.http.HttpServletResponse;
  * @author jiangyu
  * @date 2020/1/18
  */
-@RequestMapping("passPort")
+@RestController
+@RequestMapping("passport")
 public class PassPortController {
 
     private final static int MAX_PWD_LEN = 6;
     @Autowired
     private UserService userService;
 
-    @PostMapping("checkUserExists")
-    public SimpleMessage checkUserExists(@RequestParam String userName) {
-        if (StringUtils.isBlank(userName)) {
+    @GetMapping("usernameIsExist")
+    public SimpleMessage checkUserExists(@RequestParam String username) {
+        if (StringUtils.isBlank(username)) {
             throw new ErrorCodeException("用户名不能为空");
         }
-        User user = userService.queryByName(userName);
-        if (user == null) {
+        User user = userService.queryByName(username);
+        if (user != null) {
             throw new ErrorCodeException("用户已经存在");
         }
         return new SimpleMessage();
     }
 
-    @PostMapping("createUser")
-    public Object createUser(@RequestBody UserBO userBO) {
+    @PostMapping("regist")
+    public Object regist(@RequestBody UserBO userBO) {
         String username = userBO.getUsername();
         String password = userBO.getPassword();
         String confirmPwd = userBO.getConfirmPassword();
@@ -80,7 +78,7 @@ public class PassPortController {
         // 1. 实现登录
         User user = userService.queryByName(username);
         if (user == null) {
-            throw new ErrorCodeException("用户已经存在");
+            throw new ErrorCodeException("用户不存在");
         }
         if (!StringUtils.equals(MD5Utils.getMD5Str(password), user.getPassword())) {
             throw new ErrorCodeException("用户名或密码不正确");

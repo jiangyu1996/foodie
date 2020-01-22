@@ -13,29 +13,29 @@ import java.io.Serializable;
 @Data
 public class SimpleMessage implements Serializable {
     private static final long serialVersionUID = -2957516153008725933L;
-    private Integer errorCode;
-    private String errorMsg;
+    private Integer status;
+    private String msg;
     private Object data;
 
     public SimpleMessage() {
-        this.errorCode = ErrorCodeEnum.OK.getCode();
-        this.errorMsg = ErrorCodeEnum.OK.getMessage();
+        this.status = ErrorCodeEnum.OK.getCode();
+        this.msg = ErrorCodeEnum.OK.getMessage();
     }
 
     public SimpleMessage(Object data) {
-        this.errorCode = ErrorCodeEnum.OK.getCode();
-        this.errorMsg = ErrorCodeEnum.OK.getMessage();
+        this.status = ErrorCodeEnum.OK.getCode();
+        this.msg = ErrorCodeEnum.OK.getMessage();
         this.data = data;
     }
 
-    public SimpleMessage(Integer errorCode, String errorMsg) {
-        this.errorCode = errorCode;
-        this.errorMsg = errorMsg;
+    public SimpleMessage(Integer status, String msg) {
+        this.status = status;
+        this.msg = msg;
     }
 
-    public SimpleMessage(ErrorCodeEnum errorCode) {
-        this.errorCode = errorCode.getCode();
-        this.errorMsg = errorCode.getMessage();
+    public SimpleMessage(ErrorCodeEnum status) {
+        this.status = status.getCode();
+        this.msg = status.getMessage();
     }
 
 }
