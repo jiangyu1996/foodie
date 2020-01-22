@@ -9,15 +9,14 @@ import cn.decentchina.pojo.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author jiangyu
  * @date 2020/1/18
  */
-@RestController
 @RequestMapping("passPort")
 public class PassPortController {
 
@@ -38,7 +37,7 @@ public class PassPortController {
     }
 
     @PostMapping("createUser")
-    public Object createUser(UserBO userBO) {
+    public Object createUser(@RequestBody UserBO userBO) {
         String username = userBO.getUsername();
         String password = userBO.getPassword();
         String confirmPwd = userBO.getConfirmPassword();
