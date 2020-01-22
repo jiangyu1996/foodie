@@ -6,12 +6,16 @@ import cn.decentchina.entity.SimpleMessage;
 import cn.decentchina.enums.ErrorCodeEnum;
 import cn.decentchina.exception.ErrorCodeException;
 import cn.decentchina.pojo.User;
+import cn.decentchina.utils.MD5Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author jiangyu
@@ -29,8 +33,8 @@ public class PassPortController {
         if (StringUtils.isBlank(userName)) {
             throw new ErrorCodeException("用户名不能为空");
         }
-        boolean b = userService.checkUserExists(userName);
-        if (b) {
+        User user = userService.queryByName(userName);
+        if (user == null) {
             throw new ErrorCodeException("用户已经存在");
         }
         return new SimpleMessage();
@@ -57,6 +61,31 @@ public class PassPortController {
         }
         User user = userService.createUser(userBO);
         return new SimpleMessage(user);
+    }
+
+    @PostMapping("/login")
+    public SimpleMessage login(@RequestBody UserBO userBO,
+                               HttpServletRequest request,
+                               HttpServletResponse response) throws Exception {
+
+        String username = userBO.getUsername();
+        String password = userBO.getPassword();
+
+        // 0. 判断用户名和密码必须不为空
+        if (StringUtils.isBlank(username) ||
+                StringUtils.isBlank(password)) {
+            throw new ErrorCodeException("用户名或密码不能为空");
+        }
+
+        // 1. 实现登录
+        User user = userService.queryByName(username);
+        if (user == null) {
+            throw new ErrorCodeException("用户已经存在");
+        }
+        if (!StringUtils.equals(MD5Utils.getMD5Str(password), user.getPassword())) {
+            throw new ErrorCodeException("用户名或密码不正确");
+        }
+        return new SimpleMessage();
     }
 
 

@@ -30,12 +30,11 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public boolean checkUserExists(String userName) {
+    public User queryByName(String userName) {
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("username", userName);
-        User user = usersMapper.selectOneByExample(example);
-        return Objects.nonNull(user);
+        return usersMapper.selectOneByExample(example);
     }
 
     @Override

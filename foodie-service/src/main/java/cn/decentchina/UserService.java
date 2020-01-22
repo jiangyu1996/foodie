@@ -10,12 +10,12 @@ import cn.decentchina.pojo.User;
 public interface UserService {
 
     /**
-     * 判断用户是否存在
+     * 根据用户名查询用户
      *
      * @param userName 用户名
-     * @return 是否存在(true : 存在 ; false : 不存在)
+     * @return 用户信息
      */
-    boolean checkUserExists(String userName);
+    User queryByName(String userName);
 
     /**
      * 创建用户
@@ -24,4 +24,5 @@ public interface UserService {
      * @return 用户信息
      */
     User createUser(UserBO userBO);
+
 }
