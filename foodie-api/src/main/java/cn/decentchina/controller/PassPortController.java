@@ -6,7 +6,9 @@ import cn.decentchina.entity.SimpleMessage;
 import cn.decentchina.enums.ErrorCodeEnum;
 import cn.decentchina.exception.ErrorCodeException;
 import cn.decentchina.pojo.User;
+import cn.decentchina.utils.CookieUtils;
 import cn.decentchina.utils.MD5Utils;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +41,7 @@ public class PassPortController {
     }
 
     @PostMapping("regist")
-    public Object regist(@RequestBody UserBO userBO) {
+    public SimpleMessage regist(@RequestBody UserBO userBO, HttpServletRequest request, HttpServletResponse response) {
         String username = userBO.getUsername();
         String password = userBO.getPassword();
         String confirmPwd = userBO.getConfirmPassword();
@@ -58,23 +60,20 @@ public class PassPortController {
             throw new ErrorCodeException("两次密码输入不一致");
         }
         User user = userService.createUser(userBO);
+        String userJson = JSONObject.toJSONString(user);
+        CookieUtils.setCookie(request, response, "user", userJson, true);
         return new SimpleMessage(user);
     }
 
     @PostMapping("/login")
-    public SimpleMessage login(@RequestBody UserBO userBO,
-                               HttpServletRequest request,
-                               HttpServletResponse response) throws Exception {
-
+    public SimpleMessage login(@RequestBody UserBO userBO, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String username = userBO.getUsername();
         String password = userBO.getPassword();
-
         // 0. 判断用户名和密码必须不为空
         if (StringUtils.isBlank(username) ||
                 StringUtils.isBlank(password)) {
             throw new ErrorCodeException("用户名或密码不能为空");
         }
-
         // 1. 实现登录
         User user = userService.queryByName(username);
         if (user == null) {
@@ -83,7 +82,29 @@ public class PassPortController {
         if (!StringUtils.equals(MD5Utils.getMD5Str(password), user.getPassword())) {
             throw new ErrorCodeException("用户名或密码不正确");
         }
+        // 2. 部分属性置空
+        setNullProperty(user);
+        // 3.cookie
+        String userJson = JSONObject.toJSONString(user);
+        CookieUtils.setCookie(request, response, "user", userJson, true);
+        return new SimpleMessage(user);
+    }
+
+    @PostMapping("/logout")
+    public SimpleMessage logout(@RequestParam String userId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // 清楚cookie
+        CookieUtils.deleteCookie(request, response, "user");
         return new SimpleMessage();
+    }
+
+
+    private void setNullProperty(User user) {
+        user.setPassword(null);
+        user.setRealname(null);
+        user.setBirthday(null);
+        user.setEmail(null);
+        user.setCreatedTime(null);
+        user.setUpdatedTime(null);
     }
 
 
