@@ -92,7 +92,7 @@ public class PassPortController {
 
     @PostMapping("/logout")
     public SimpleMessage logout(@RequestParam String userId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // 清楚cookie
+        // 清除cookie
         CookieUtils.deleteCookie(request, response, "user");
         return new SimpleMessage();
     }
