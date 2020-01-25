@@ -6,6 +6,7 @@ import cn.decentchina.enums.YesOrNo;
 import cn.decentchina.pojo.Carousel;
 import cn.decentchina.pojo.Category;
 import cn.decentchina.vo.CategoryVO;
+import cn.decentchina.vo.NewItemsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,4 +46,14 @@ public class IndexController {
         List<CategoryVO> categoryVOList = carouselService.listSubCat(rootCatId);
         return new SimpleMessage(categoryVOList);
     }
+
+    @GetMapping("sixNewItems/{rootCatId}")
+    public SimpleMessage getSixNewItemsLazy(@PathVariable Integer rootCatId) {
+        if (rootCatId == null) {
+            return new SimpleMessage();
+        }
+        List<NewItemsVO> categoryVOList = carouselService.getSixNewItemsLazy(rootCatId);
+        return new SimpleMessage(categoryVOList);
+    }
+
 }

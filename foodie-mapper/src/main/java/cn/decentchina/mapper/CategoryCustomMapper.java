@@ -1,6 +1,7 @@
 package cn.decentchina.mapper;
 
 import cn.decentchina.vo.CategoryVO;
+import cn.decentchina.vo.NewItemsVO;
 
 import java.util.List;
 
@@ -17,4 +18,13 @@ public interface CategoryCustomMapper {
      * @return 子节点集合
      */
     List<CategoryVO> getSubCatList(int rootCatId);
+
+    /**
+     * 根据父级节点下最新产品信息
+     *
+     * @param rootCatId 父节点id
+     * @return 子节点集合
+     */
+    List<NewItemsVO> getSixNewItemsLazy(int rootCatId);
+
 }

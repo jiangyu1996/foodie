@@ -8,6 +8,7 @@ import cn.decentchina.mapper.CategoryMapper;
 import cn.decentchina.pojo.Carousel;
 import cn.decentchina.pojo.Category;
 import cn.decentchina.vo.CategoryVO;
+import cn.decentchina.vo.NewItemsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
@@ -31,6 +32,11 @@ public class CarouselServiceImpl implements CarouselService {
     @Override
     public List<CategoryVO> listSubCat(Integer rootCatId) {
         return categoryCustomMapper.getSubCatList(rootCatId);
+    }
+
+    @Override
+    public List<NewItemsVO> getSixNewItemsLazy(int rootCatId) {
+        return categoryCustomMapper.getSixNewItemsLazy(rootCatId);
     }
 
     @Override

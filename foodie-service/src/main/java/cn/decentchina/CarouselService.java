@@ -3,6 +3,7 @@ package cn.decentchina;
 import cn.decentchina.pojo.Carousel;
 import cn.decentchina.pojo.Category;
 import cn.decentchina.vo.CategoryVO;
+import cn.decentchina.vo.NewItemsVO;
 
 import java.util.List;
 
@@ -33,4 +34,12 @@ public interface CarouselService {
      * @return 子节点集合
      */
     List<CategoryVO> listSubCat(Integer rootCatId);
+
+    /**
+     * 根据父级节点下最新产品信息
+     *
+     * @param rootCatId 父节点id
+     * @return 产品信息集合
+     */
+    List<NewItemsVO> getSixNewItemsLazy(int rootCatId);
 }
