@@ -54,4 +54,18 @@ public class ItemController {
         PagedGridResult result = itemService.queryPagedComments(itemId, level, page, pageSize);
         return new SimpleMessage(result);
     }
+
+    @GetMapping("search")
+    public SimpleMessage search(@RequestParam String keywords, @RequestParam String sort,
+                                @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "20") Integer pageSize) {
+        PagedGridResult result = itemService.search(keywords, sort, page, pageSize);
+        return new SimpleMessage(result);
+    }
+
+    @GetMapping("catItems")
+    public SimpleMessage catItems(@RequestParam Integer catId, @RequestParam String sort,
+                                  @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "20") Integer pageSize) {
+        PagedGridResult result = itemService.catItems(catId, sort, page, pageSize);
+        return new SimpleMessage(result);
+    }
 }

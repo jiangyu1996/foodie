@@ -60,9 +60,31 @@ public interface ItemService {
      *
      * @param itemId   产品id
      * @param level    评论等级
-     * @param page     分页页数
+     * @param page     查询页数
      * @param pageSize 分页查询数量
      * @return 评论集合
      */
     PagedGridResult queryPagedComments(String itemId, Integer level, Integer page, Integer pageSize);
+
+    /**
+     * 关键字查询产品
+     *
+     * @param keyword  关键字
+     * @param sort     排序规则
+     * @param page     查询页数
+     * @param pageSize 分页查询数量
+     * @return 产品集合
+     */
+    PagedGridResult search(String keyword, String sort, Integer page, Integer pageSize);
+
+    /**
+     * 导航栏分类查询产品
+     *
+     * @param catId    分类id
+     * @param sort     排序规则
+     * @param page     查询页数
+     * @param pageSize 分页查询数量
+     * @return 产品集合
+     */
+    PagedGridResult catItems(Integer catId, String sort, Integer page, Integer pageSize);
 }

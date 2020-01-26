@@ -7,6 +7,7 @@ import cn.decentchina.utils.DesensitizationUtil;
 import cn.decentchina.utils.PagedGridResult;
 import cn.decentchina.vo.CommentLevelCountsVO;
 import cn.decentchina.vo.ItemCommentVO;
+import cn.decentchina.vo.SearchItemsVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ItemsCommentsMapper itemsCommentsMapper;
     @Autowired
+    private ItemsCustomMapper itemsCustomMapper;
+    @Autowired
     private ItemsCustomCommentsMapper itemsCustomCommentsMapper;
 
     @Override
@@ -57,6 +60,26 @@ public class ItemServiceImpl implements ItemService {
         Example.Criteria criteria = itemsSpecExp.createCriteria();
         criteria.andEqualTo("itemId", itemId);
         return itemsSpecMapper.selectByExample(itemsSpecExp);
+    }
+
+    @Override
+    public PagedGridResult catItems(Integer catId, String sort, Integer page, Integer pageSize) {
+        HashMap<String, Object> map = new HashMap<>(2);
+        map.put("catId", catId);
+        map.put("sort", sort);
+        PageHelper.startPage(page, pageSize);
+        List<SearchItemsVO> searchItemsVOS = itemsCustomMapper.searchItemsByThirdCat(map);
+        return getPagedGridResult(page, searchItemsVOS);
+    }
+
+    @Override
+    public PagedGridResult search(String keyword, String sort, Integer page, Integer pageSize) {
+        HashMap<String, Object> map = new HashMap<>(2);
+        map.put("keyword", keyword);
+        map.put("sort", sort);
+        PageHelper.startPage(page, pageSize);
+        List<SearchItemsVO> searchItemsVOS = itemsCustomMapper.searchItems(map);
+        return getPagedGridResult(page, searchItemsVOS);
     }
 
     @Override
