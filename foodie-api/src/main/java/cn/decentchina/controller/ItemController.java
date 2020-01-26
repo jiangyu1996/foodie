@@ -9,6 +9,8 @@ import cn.decentchina.pojo.ItemsSpec;
 import cn.decentchina.utils.PagedGridResult;
 import cn.decentchina.vo.CommentLevelCountsVO;
 import cn.decentchina.vo.ItemInfoVO;
+import cn.decentchina.vo.ShopcartVO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,4 +70,20 @@ public class ItemController {
         PagedGridResult result = itemService.catItems(catId, sort, page, pageSize);
         return new SimpleMessage(result);
     }
+
+    /**
+     * 用户长时间未登录购物车，同步刷新价格
+     *
+     * @param itemSpecIds 产品价格
+     * @return 产品价格信息
+     */
+    @GetMapping("refresh")
+    public SimpleMessage refresh(@RequestParam String itemSpecIds) {
+        if (StringUtils.isBlank(itemSpecIds)) {
+            return new SimpleMessage();
+        }
+        List<ShopcartVO> refresh = itemService.refresh(itemSpecIds);
+        return new SimpleMessage(refresh);
+    }
+
 }

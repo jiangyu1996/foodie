@@ -2,6 +2,7 @@ package cn.decentchina.mapper;
 
 import cn.decentchina.vo.ItemCommentVO;
 import cn.decentchina.vo.SearchItemsVO;
+import cn.decentchina.vo.ShopcartVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -28,6 +29,14 @@ public interface ItemsCustomMapper {
      * @return 评价集合
      */
     List<SearchItemsVO> searchItemsByThirdCat(@Param("paramsMap") Map<String, Object> map);
+
+    /**
+     * 导航栏查询产品
+     *
+     * @param map 参数
+     * @return 评价集合
+     */
+    List<ShopcartVO> queryItemsBySpecIds(@Param("paramsList") List<String> map);
 
 
 }

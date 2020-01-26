@@ -6,6 +6,7 @@ import cn.decentchina.pojo.ItemsParam;
 import cn.decentchina.pojo.ItemsSpec;
 import cn.decentchina.utils.PagedGridResult;
 import cn.decentchina.vo.CommentLevelCountsVO;
+import cn.decentchina.vo.ShopcartVO;
 
 import java.util.List;
 
@@ -87,4 +88,12 @@ public interface ItemService {
      * @return 产品集合
      */
     PagedGridResult catItems(Integer catId, String sort, Integer page, Integer pageSize);
+
+    /**
+     * 导航栏分类查询产品
+     *
+     * @param itemSpecIds 产品id
+     * @return 产品集合
+     */
+    List<ShopcartVO> refresh(String itemSpecIds);
 }

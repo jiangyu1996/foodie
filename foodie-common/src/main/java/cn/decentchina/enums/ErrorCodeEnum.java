@@ -18,6 +18,7 @@ public enum ErrorCodeEnum {
     OK(200, "请求通过"),
     NO(500, "请求不通过"),
     INVALID_USER(1000, "用户名或密码有误"),
+    INVALID_PARAMS(1001, "参数有误"),
     ERROR(9999, "系统异常"),
     ;
 

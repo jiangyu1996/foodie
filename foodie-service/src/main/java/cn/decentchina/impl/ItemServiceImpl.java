@@ -8,6 +8,7 @@ import cn.decentchina.utils.PagedGridResult;
 import cn.decentchina.vo.CommentLevelCountsVO;
 import cn.decentchina.vo.ItemCommentVO;
 import cn.decentchina.vo.SearchItemsVO;
+import cn.decentchina.vo.ShopcartVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -68,8 +70,14 @@ public class ItemServiceImpl implements ItemService {
         map.put("catId", catId);
         map.put("sort", sort);
         PageHelper.startPage(page, pageSize);
-        List<SearchItemsVO> searchItemsVOS = itemsCustomMapper.searchItemsByThirdCat(map);
-        return getPagedGridResult(page, searchItemsVOS);
+        List<SearchItemsVO> searchItems = itemsCustomMapper.searchItemsByThirdCat(map);
+        return getPagedGridResult(page, searchItems);
+    }
+
+    @Override
+    public List<ShopcartVO> refresh(String itemSpecIds) {
+        List<String> idList = Arrays.asList(itemSpecIds.split(","));
+        return itemsCustomMapper.queryItemsBySpecIds(idList);
     }
 
     @Override
@@ -78,8 +86,8 @@ public class ItemServiceImpl implements ItemService {
         map.put("keyword", keyword);
         map.put("sort", sort);
         PageHelper.startPage(page, pageSize);
-        List<SearchItemsVO> searchItemsVOS = itemsCustomMapper.searchItems(map);
-        return getPagedGridResult(page, searchItemsVOS);
+        List<SearchItemsVO> searchItems = itemsCustomMapper.searchItems(map);
+        return getPagedGridResult(page, searchItems);
     }
 
     @Override
