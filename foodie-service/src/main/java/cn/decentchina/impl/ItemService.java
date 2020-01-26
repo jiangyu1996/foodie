@@ -4,6 +4,8 @@ import cn.decentchina.pojo.Items;
 import cn.decentchina.pojo.ItemsImg;
 import cn.decentchina.pojo.ItemsParam;
 import cn.decentchina.pojo.ItemsSpec;
+import cn.decentchina.utils.PagedGridResult;
+import cn.decentchina.vo.CommentLevelCountsVO;
 
 import java.util.List;
 
@@ -44,4 +46,23 @@ public interface ItemService {
      * @return 产品信息
      */
     ItemsParam queryItemParam(String itemId);
+
+    /**
+     * 查询评价数量
+     *
+     * @param itemId 产品id
+     * @return 评论数量
+     */
+    CommentLevelCountsVO commentLevel(String itemId);
+
+    /**
+     * 查询评价数量
+     *
+     * @param itemId   产品id
+     * @param level    评论等级
+     * @param page     分页页数
+     * @param pageSize 分页查询数量
+     * @return 评论集合
+     */
+    PagedGridResult queryPagedComments(String itemId, Integer level, Integer page, Integer pageSize);
 }

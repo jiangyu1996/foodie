@@ -6,12 +6,11 @@ import cn.decentchina.pojo.Items;
 import cn.decentchina.pojo.ItemsImg;
 import cn.decentchina.pojo.ItemsParam;
 import cn.decentchina.pojo.ItemsSpec;
+import cn.decentchina.utils.PagedGridResult;
+import cn.decentchina.vo.CommentLevelCountsVO;
 import cn.decentchina.vo.ItemInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,5 +40,18 @@ public class ItemController {
         itemInfoVO.setItemParams(itemsParam);
         itemInfoVO.setItemSpecList(itemsSpecs);
         return new SimpleMessage(itemInfoVO);
+    }
+
+    @GetMapping("commentLevel")
+    public SimpleMessage commentLevel(@RequestParam String itemId) {
+        CommentLevelCountsVO countsVO = itemService.commentLevel(itemId);
+        return new SimpleMessage(countsVO);
+    }
+
+    @GetMapping("comments")
+    public SimpleMessage comments(@RequestParam String itemId, @RequestParam Integer level,
+                                  @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "20") Integer pageSize) {
+        PagedGridResult result = itemService.queryPagedComments(itemId, level, page, pageSize);
+        return new SimpleMessage(result);
     }
 }
