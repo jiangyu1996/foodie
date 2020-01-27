@@ -1,7 +1,7 @@
 package cn.decentchina.controller;
 
 import cn.decentchina.entity.SimpleMessage;
-import cn.decentchina.impl.ItemService;
+import cn.decentchina.ItemService;
 import cn.decentchina.pojo.Items;
 import cn.decentchina.pojo.ItemsImg;
 import cn.decentchina.pojo.ItemsParam;

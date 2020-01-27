@@ -1,4 +1,4 @@
-package cn.decentchina.impl;
+package cn.decentchina;
 
 import cn.decentchina.pojo.Items;
 import cn.decentchina.pojo.ItemsImg;
