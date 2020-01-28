@@ -48,4 +48,13 @@ public interface UserAddressService {
      * @param addressId 地址记录id
      */
     void setDefault(String userId, String addressId);
+
+    /**
+     * 查询地址
+     *
+     * @param userId    用户id
+     * @param addressId 地址id
+     * @return 地址信息
+     */
+    UserAddress queryUserAddress(String userId, String addressId);
 }

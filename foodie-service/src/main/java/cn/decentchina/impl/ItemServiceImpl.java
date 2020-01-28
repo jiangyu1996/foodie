@@ -2,6 +2,9 @@ package cn.decentchina.impl;
 
 import cn.decentchina.ItemService;
 import cn.decentchina.enums.CommentLevel;
+import cn.decentchina.enums.ErrorCodeEnum;
+import cn.decentchina.enums.YesOrNo;
+import cn.decentchina.exception.ErrorCodeException;
 import cn.decentchina.mapper.*;
 import cn.decentchina.pojo.*;
 import cn.decentchina.utils.DesensitizationUtil;
@@ -73,6 +76,28 @@ public class ItemServiceImpl implements ItemService {
         PageHelper.startPage(page, pageSize);
         List<SearchItemsVO> searchItems = itemsCustomMapper.searchItemsByThirdCat(map);
         return getPagedGridResult(page, searchItems);
+    }
+
+    @Override
+    public String queryItemMainImgById(String itemId) {
+        ItemsImg itemsImg = new ItemsImg();
+        itemsImg.setItemId(itemId);
+        itemsImg.setIsMain(YesOrNo.YES.type);
+        itemsImg = itemsImgMapper.selectOne(itemsImg);
+        return itemsImg == null ? "" : itemsImg.getUrl();
+    }
+
+    @Override
+    public void decreaseItemSpecStock(String itemSpecId, int buyCounts) {
+        int row = itemsCustomMapper.decreaseSpecStock(itemSpecId, buyCounts);
+        if (row != 1) {
+            throw new ErrorCodeException(ErrorCodeEnum.NO.getCode(), "库存不足");
+        }
+    }
+
+    @Override
+    public ItemsSpec querySpecById(String id) {
+        return itemsSpecMapper.selectByPrimaryKey(id);
     }
 
     @Override

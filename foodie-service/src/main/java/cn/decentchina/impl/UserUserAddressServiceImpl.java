@@ -29,6 +29,14 @@ public class UserUserAddressServiceImpl implements UserAddressService {
     private Sid sid;
 
     @Override
+    public UserAddress queryUserAddress(String userId, String addressId) {
+        UserAddress address = new UserAddress();
+        address.setId(addressId);
+        address.setUserId(userId);
+        return userAddressMapper.selectOne(address);
+    }
+
+    @Override
     public void setDefault(String userId, String addressId) {
         UserAddress userAddress = new UserAddress();
         userAddress.setIsDefault(YesOrNo.NO.type);

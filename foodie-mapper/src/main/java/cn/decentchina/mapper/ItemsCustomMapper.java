@@ -1,6 +1,5 @@
 package cn.decentchina.mapper;
 
-import cn.decentchina.vo.ItemCommentVO;
 import cn.decentchina.vo.SearchItemsVO;
 import cn.decentchina.vo.ShopcartVO;
 import org.apache.ibatis.annotations.Param;
@@ -37,6 +36,16 @@ public interface ItemsCustomMapper {
      * @return 评价集合
      */
     List<ShopcartVO> queryItemsBySpecIds(@Param("paramsList") List<String> map);
+
+
+    /**
+     * 扣除库存
+     *
+     * @param specId        产品id
+     * @param pendingCounts 购买数量
+     * @return 评价集合
+     */
+    int decreaseSpecStock(@Param("specId") String specId, @Param("pendingCounts") int pendingCounts);
 
 
 }
