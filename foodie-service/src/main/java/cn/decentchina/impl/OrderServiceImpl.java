@@ -4,12 +4,16 @@ import cn.decentchina.ItemService;
 import cn.decentchina.OrderService;
 import cn.decentchina.UserAddressService;
 import cn.decentchina.bo.SubmitOrderBO;
+import cn.decentchina.enums.ErrorCodeEnum;
 import cn.decentchina.enums.OrderStatusEnum;
 import cn.decentchina.enums.YesOrNo;
+import cn.decentchina.exception.ErrorCodeException;
 import cn.decentchina.mapper.OrderItemsMapper;
 import cn.decentchina.mapper.OrderStatusMapper;
 import cn.decentchina.mapper.OrdersMapper;
 import cn.decentchina.pojo.*;
+import cn.decentchina.vo.MerchantOrdersVO;
+import cn.decentchina.vo.OrderVO;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +43,19 @@ public class OrderServiceImpl implements OrderService {
     private OrdersMapper ordersMapper;
 
     @Override
+    public void updateOrderStatus(String merchantOrderId, Integer type) {
+        OrderStatus orderStatus = new OrderStatus();
+        orderStatus.setOrderId(merchantOrderId);
+        orderStatus.setOrderStatus(type);
+        int row = orderStatusMapper.updateByPrimaryKeySelective(orderStatus);
+        if (row != 1) {
+            throw new ErrorCodeException(ErrorCodeEnum.NO);
+        }
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
-    public String createOrder(SubmitOrderBO submitOrderBO) {
+    public OrderVO createOrder(SubmitOrderBO submitOrderBO) {
         UserAddress address = userAddressService.queryUserAddress(submitOrderBO.getUserId(), submitOrderBO.getAddressId());
         Orders orders = new Orders();
         BeanUtils.copyProperties(submitOrderBO, orders);
@@ -55,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
         orders.setUpdatedTime(new Date());
         String itemSpecIds = submitOrderBO.getItemSpecIds();
         String[] itemSpecIdArr = itemSpecIds.split(",");
-        int totalAmount = 0, realPayAmount = 0;
+        int totalAmount = 0, realPayAmount = 0, postAmount = 0;
         String orderId = sid.nextShort();
         for (String itemSpecId : itemSpecIdArr) {
             ItemsSpec itemSpec = itemService.querySpecById(itemSpecId);
@@ -93,6 +108,18 @@ public class OrderServiceImpl implements OrderService {
         waitPayOrderStatus.setOrderStatus(OrderStatusEnum.WAIT_PAY.type);
         waitPayOrderStatus.setCreatedTime(new Date());
         orderStatusMapper.insert(waitPayOrderStatus);
-        return orderId;
+
+        // 4. 构建商户订单，用于传给支付中心
+        MerchantOrdersVO merchantOrdersVO = new MerchantOrdersVO();
+        merchantOrdersVO.setMerchantOrderId(orderId);
+        merchantOrdersVO.setMerchantUserId(submitOrderBO.getUserId());
+        merchantOrdersVO.setAmount(realPayAmount + postAmount);
+        merchantOrdersVO.setPayMethod(submitOrderBO.getPayMethod());
+
+        // 5. 构建自定义订单vo
+        OrderVO orderVO = new OrderVO();
+        orderVO.setOrderId(orderId);
+        orderVO.setMerchantOrdersVO(merchantOrdersVO);
+        return orderVO;
     }
 }

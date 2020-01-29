@@ -1,6 +1,7 @@
 package cn.decentchina;
 
 import cn.decentchina.bo.SubmitOrderBO;
+import cn.decentchina.vo.OrderVO;
 
 /**
  * @author jiangyu
@@ -14,5 +15,13 @@ public interface OrderService {
      * @param submitOrderBO 订单信息
      * @return 订单id
      */
-    String createOrder(SubmitOrderBO submitOrderBO);
+    OrderVO createOrder(SubmitOrderBO submitOrderBO);
+
+    /**
+     * 修改订单状态
+     *
+     * @param merchantOrderId 商户订单id
+     * @param type            订单状态
+     */
+    void updateOrderStatus(String merchantOrderId, Integer type);
 }
