@@ -14,7 +14,7 @@ public class OrderJob {
     @Autowired
     private OrderService orderService;
 
-    @Scheduled(cron = "* 0/10 * * * ?")
+    @Scheduled(cron = "0 0/10 * * * ? ")
     private void closeTimeOutOrder() {
         orderService.closeTimeOutOrder();
     }

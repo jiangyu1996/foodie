@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +29,12 @@ public class GlobalExceptionHandler {
             log.warn("[{}]接口异常[{}]", request.getRequestURI(), e.getMessage());
             message.setStatus(e.getCode());
             message.setMsg(e.getMessage());
+            return message;
+        }
+        if (ex instanceof MaxUploadSizeExceededException) {
+            log.warn("[{}]接口异常[{}]", request.getRequestURI(), ex.getMessage());
+            message.setStatus(ErrorCodeEnum.NO.getCode());
+            message.setMsg("文件大小过大，请压缩处理🗜");
             return message;
         }
         log.error("[{}]系统异常", request.getRequestURI(), ex);

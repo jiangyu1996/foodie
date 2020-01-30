@@ -2,7 +2,9 @@ package cn.decentchina.impl;
 
 import cn.decentchina.UserService;
 import cn.decentchina.bo.UserBO;
+import cn.decentchina.enums.ErrorCodeEnum;
 import cn.decentchina.enums.Sex;
+import cn.decentchina.exception.ErrorCodeException;
 import cn.decentchina.mapper.UsersMapper;
 import cn.decentchina.pojo.User;
 import cn.decentchina.utils.MD5Utils;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * @author jiangyu
@@ -35,6 +36,19 @@ public class UserServiceImpl implements UserService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("username", userName);
         return usersMapper.selectOneByExample(example);
+    }
+
+    @Override
+    public User updateFaceUrl(String userId, String serverImgUrl) {
+        User user = new User();
+        user.setId(userId);
+        user.setFace(serverImgUrl);
+        int row = usersMapper.updateByPrimaryKeySelective(user);
+        if (row != 1) {
+            throw new ErrorCodeException(ErrorCodeEnum.NO);
+        }
+        user = usersMapper.selectByPrimaryKey(user);
+        return user;
     }
 
     @Override

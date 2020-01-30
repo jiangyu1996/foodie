@@ -37,8 +37,10 @@ spring:
     multipart:
       max-file-size: 512000     # 文件上传大小限制为500kb
       max-request-size: 512000  # 请求大小限制为500kb
-
-############################################################
+#  mvc:
+#    static-path-pattern: /**
+#  resources:
+#    static-locations: file:D:\IDEAWorkSpace\foodie\foodie-api\uploadFace\
 # mybatis 配置
 #
 ############################################################

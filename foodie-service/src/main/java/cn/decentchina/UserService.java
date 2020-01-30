@@ -25,4 +25,12 @@ public interface UserService {
      */
     User createUser(UserBO userBO);
 
+    /**
+     * 跟新头像
+     *
+     * @param userId       用户id
+     * @param serverImgUrl 图片url
+     * @return 用户信息
+     */
+    User updateFaceUrl(String userId, String serverImgUrl);
 }
