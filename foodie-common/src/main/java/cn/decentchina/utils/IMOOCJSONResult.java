@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * 
+ *
  * @Title: IMOOCJSONResult.java
- * @Package com.imooc.utils
+ * @Package cn.decentchina.utils
  * @Description: 自定义响应数据结构
  * 				本类可提供给 H5/ios/安卓/公众号/小程序 使用
  * 				前端接受此类数据（json object)后，可自行根据业务去实现相关功能
- * 
+ *
  * 				200：表示成功
  * 				500：表示错误，错误信息在msg字段中
  * 				501：bean验证错误，不管多少个错误都以map形式返回

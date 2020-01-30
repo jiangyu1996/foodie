@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.cn.decentchina.mapper.OrdersMapper" >
-  <resultMap id="BaseResultMap" type="cn.decentchina.pojo.Orders" >
+<mapper namespace="cn.OrdersMapper">
+  <resultMap id="BaseResultMap" type="Orders">
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
-    <result column="receiver_mobile" property="receiverMobile" jdbcType="VARCHAR" />
-    <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR" />
-    <result column="total_amount" property="totalAmount" jdbcType="INTEGER" />
-    <result column="real_pay_amount" property="realPayAmount" jdbcType="INTEGER" />
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR"/>
+    <result column="receiver_mobile" property="receiverMobile" jdbcType="VARCHAR"/>
+    <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR"/>
+    <result column="total_amount" property="totalAmount" jdbcType="INTEGER"/>
+    <result column="real_pay_amount" property="realPayAmount" jdbcType="INTEGER"/>
     <result column="post_amount" property="postAmount" jdbcType="INTEGER" />
     <result column="pay_method" property="payMethod" jdbcType="INTEGER" />
     <result column="left_msg" property="leftMsg" jdbcType="VARCHAR" />
