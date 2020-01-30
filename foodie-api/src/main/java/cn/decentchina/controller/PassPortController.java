@@ -1,5 +1,6 @@
 package cn.decentchina.controller;
 
+import cn.decentchina.CommonConstant;
 import cn.decentchina.UserService;
 import cn.decentchina.bo.UserBO;
 import cn.decentchina.entity.SimpleMessage;
@@ -61,7 +62,7 @@ public class PassPortController {
         }
         User user = userService.createUser(userBO);
         String userJson = JSONObject.toJSONString(user);
-        CookieUtils.setCookie(request, response, "user", userJson, true);
+        CookieUtils.setCookie(request, response, CommonConstant.USER, JSONObject.toJSONString(user), true);
         return new SimpleMessage(user);
     }
 
@@ -86,7 +87,7 @@ public class PassPortController {
         setNullProperty(user);
         // 3.cookie
         String userJson = JSONObject.toJSONString(user);
-        CookieUtils.setCookie(request, response, "user", userJson, true);
+        CookieUtils.setCookie(request, response, CommonConstant.USER, JSONObject.toJSONString(user), true);
         return new SimpleMessage(user);
     }
 
@@ -106,6 +107,5 @@ public class PassPortController {
         user.setCreatedTime(null);
         user.setUpdatedTime(null);
     }
-
 
 }
