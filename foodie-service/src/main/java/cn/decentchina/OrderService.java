@@ -24,4 +24,9 @@ public interface OrderService {
      * @param type            订单状态
      */
     void updateOrderStatus(String merchantOrderId, Integer type);
+
+    /**
+     * 关闭超市未支付订单
+     */
+    void closeTimeOutOrder();
 }

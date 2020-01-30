@@ -14,6 +14,8 @@ import cn.decentchina.mapper.OrdersMapper;
 import cn.decentchina.pojo.*;
 import cn.decentchina.vo.MerchantOrdersVO;
 import cn.decentchina.vo.OrderVO;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +23,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author jiangyu
  * @date 2020/1/28
  */
 @Service
+@Slf4j
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
@@ -41,6 +45,25 @@ public class OrderServiceImpl implements OrderService {
     private OrderStatusMapper orderStatusMapper;
     @Autowired
     private OrdersMapper ordersMapper;
+
+    @Override
+    public void closeTimeOutOrder() {
+        log.info("关闭订单定时任务执行");
+        int row;
+        OrderStatus status = new OrderStatus();
+        status.setOrderStatus(OrderStatusEnum.WAIT_PAY.type);
+        List<OrderStatus> statusList = orderStatusMapper.select(status);
+        for (OrderStatus orderStatus : statusList) {
+            if (DateUtils.addDays(orderStatus.getCreatedTime(), 1).before(new Date())) {
+                orderStatus.setOrderStatus(OrderStatusEnum.WAIT_DELIVER.type);
+                row = orderStatusMapper.updateByPrimaryKeySelective(orderStatus);
+                if (row != 1) {
+                    throw new ErrorCodeException(ErrorCodeEnum.NO);
+                }
+                log.info("定时任务关闭超时未支付订单[{}]", orderStatus.getOrderId());
+            }
+        }
+    }
 
     @Override
     public void updateOrderStatus(String merchantOrderId, Integer type) {
