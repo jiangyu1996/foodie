@@ -18,7 +18,7 @@ public interface MyOrderService {
      * @param pageSize    每页条数
      * @return 分页订单信息
      */
-    public PagedGridResult listOrder(String userId, Integer orderStatus, Integer page, Integer pageSize);
+    PagedGridResult listOrder(String userId, Integer orderStatus, Integer page, Integer pageSize);
 
     /**
      * 查询订单

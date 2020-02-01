@@ -1,6 +1,7 @@
 package cn.decentchina.impl;
 
 import cn.decentchina.ItemService;
+import cn.decentchina.base.BaseService;
 import cn.decentchina.enums.CommentLevel;
 import cn.decentchina.enums.ErrorCodeEnum;
 import cn.decentchina.enums.YesOrNo;
@@ -31,7 +32,7 @@ import java.util.Optional;
  * @date 2020/1/25
  */
 @Service
-public class ItemServiceImpl implements ItemService {
+public class ItemServiceImpl extends BaseService implements ItemService {
     @Autowired
     private ItemsMapper itemsMapper;
     @Autowired
@@ -45,7 +46,7 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ItemsCustomMapper itemsCustomMapper;
     @Autowired
-    private ItemsCustomCommentsMapper itemsCustomCommentsMapper;
+    private ItemsCommentsCustomMapper itemsCommentsCustomMapper;
 
     @Override
     public Items queryItemById(String itemId) {
@@ -122,19 +123,9 @@ public class ItemServiceImpl implements ItemService {
         map.put("itemId", itemId);
         map.put("level", level);
         PageHelper.startPage(page, pageSize);
-        List<ItemCommentVO> itemComments = itemsCustomCommentsMapper.queryItemComments(map);
+        List<ItemCommentVO> itemComments = itemsCommentsCustomMapper.queryItemComments(map);
         itemComments.forEach(o -> o.setNickname(DesensitizationUtil.commonDisplay(o.getNickname())));
         return getPagedGridResult(page, itemComments);
-    }
-
-    private PagedGridResult getPagedGridResult(Integer page, List<?> list) {
-        PagedGridResult result = new PagedGridResult();
-        PageInfo pageInfo = new PageInfo<>(list);
-        result.setPage(page);
-        result.setRows(pageInfo.getList());
-        result.setRecords(pageInfo.getTotal());
-        result.setTotal(pageInfo.getPages());
-        return result;
     }
 
     @Override
