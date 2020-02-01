@@ -43,7 +43,7 @@ public class MyCommentsServiceImpl extends BaseService implements MyCommentsServ
 
     @Override
     public PagedGridResult queryMyComments(String userId, Integer page, Integer pageSize) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(1);
         map.put("userId", userId);
         PageHelper.startPage(page, pageSize);
         List<MyCommentVO> list = itemsCommentsCustomMapper.queryMyComments(map);

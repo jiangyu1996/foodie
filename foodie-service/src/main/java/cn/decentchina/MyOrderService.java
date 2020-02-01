@@ -2,6 +2,7 @@ package cn.decentchina;
 
 import cn.decentchina.pojo.Orders;
 import cn.decentchina.utils.PagedGridResult;
+import cn.decentchina.vo.OrderStatusCountsVO;
 
 /**
  * @author jiangyu
@@ -43,4 +44,22 @@ public interface MyOrderService {
      * @param orderId 订单id
      */
     void deleteOrder(String userId, String orderId);
+
+    /**
+     * 查询订单数量
+     *
+     * @param userId 用户id
+     * @return 数量信息
+     */
+    OrderStatusCountsVO getOrderStatusCounts(String userId);
+
+    /**
+     * 查询订单动向
+     *
+     * @param userId   用户id
+     * @param page     查询页数
+     * @param pageSize 每页条数
+     * @return 订单动向信息
+     */
+    PagedGridResult getOrdersTrend(String userId, Integer page, Integer pageSize);
 }

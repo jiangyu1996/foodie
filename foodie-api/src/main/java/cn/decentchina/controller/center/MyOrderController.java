@@ -5,6 +5,7 @@ import cn.decentchina.entity.SimpleMessage;
 import cn.decentchina.exception.ErrorCodeException;
 import cn.decentchina.pojo.Orders;
 import cn.decentchina.utils.PagedGridResult;
+import cn.decentchina.vo.OrderStatusCountsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +42,19 @@ public class MyOrderController {
         checkUserOrder(userId, orderId);
         myOrderService.deleteOrder(userId, orderId);
         return new SimpleMessage();
+    }
+
+    @PostMapping("/statusCounts")
+    public SimpleMessage statusCounts(@RequestParam String userId) {
+        OrderStatusCountsVO result = myOrderService.getOrderStatusCounts(userId);
+        return new SimpleMessage(result);
+    }
+
+    @PostMapping("/trend")
+    public SimpleMessage trend(@RequestParam String userId, @RequestParam(defaultValue = "1") Integer page,
+                               @RequestParam(defaultValue = "20") Integer pageSize) {
+        PagedGridResult grid = myOrderService.getOrdersTrend(userId, page, pageSize);
+        return new SimpleMessage(grid);
     }
 
     /**

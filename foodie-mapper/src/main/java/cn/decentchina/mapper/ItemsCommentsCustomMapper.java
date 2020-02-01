@@ -19,7 +19,7 @@ public interface ItemsCommentsCustomMapper {
      * @param map 参数
      * @return 评价列表
      */
-    List<MyCommentVO> queryMyComments(Map<String, Object> map);
+    List<MyCommentVO> queryMyComments(@Param("paramsMap") Map<String, Object> map);
 
     /**
      * 查询评价
