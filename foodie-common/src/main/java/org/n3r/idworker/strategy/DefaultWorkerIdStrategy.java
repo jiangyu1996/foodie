@@ -19,7 +19,7 @@ public class DefaultWorkerIdStrategy implements WorkerIdStrategy {
     static long maxWorkerId = -1L ^ (-1L << workerIdBits);
     static Random random = new SecureRandom();
 
-    public static final WorkerIdStrategy instance = new DefaultWorkerIdStrategy();
+    public static final WorkerIdStrategy INSTANCE = new DefaultWorkerIdStrategy();
 
     private final Properties props =
             Props.tryProperties("idworker-client.properties", Utils.DOT_IDWORKERS);

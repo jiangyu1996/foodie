@@ -13,7 +13,7 @@ public class Sid {
     private static IdWorker idWorker;
 
     static {
-        configure(DefaultWorkerIdStrategy.instance);
+        configure(DefaultWorkerIdStrategy.INSTANCE);
     }
 
 

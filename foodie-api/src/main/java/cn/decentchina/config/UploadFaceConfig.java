@@ -19,4 +19,9 @@ public class UploadFaceConfig {
      * 上传路径
      */
     private String uploadUrl;
+    /**
+     * 查看图片路径
+     */
+    private String serverImgUrl;
+
 }

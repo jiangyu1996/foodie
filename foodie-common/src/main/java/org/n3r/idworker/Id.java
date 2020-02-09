@@ -7,7 +7,7 @@ public class Id {
     private static IdWorker idWorker;
 
     static {
-        configure(DefaultWorkerIdStrategy.instance);
+        configure(DefaultWorkerIdStrategy.INSTANCE);
     }
 
     public static synchronized void configure(WorkerIdStrategy custom) {

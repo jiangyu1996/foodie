@@ -64,7 +64,6 @@ public class CenterUserController {
     @PostMapping("uploadFace")
     public SimpleMessage uploadFace(@RequestParam String userId, MultipartFile file,
                                     HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         if (file == null) {
             throw new ErrorCodeException("头像文件不能为空");
         }
@@ -95,7 +94,7 @@ public class CenterUserController {
             @Cleanup InputStream inputStream = file.getInputStream();
             IOUtils.copy(inputStream, fileOutputStream);
         }
-        String serverImgUrl = "http://localhost:8088" + File.separator + userId + File.separator + fileName + "?" + System.currentTimeMillis();
+        String serverImgUrl = uploadFaceConfig.getServerImgUrl() + File.separator + userId + File.separator + fileName + "?" + System.currentTimeMillis();
         User user = userService.updateFaceUrl(userId, serverImgUrl);
         setNullProperty(user);
         CookieUtils.setCookie(request, response, CommonConstant.USER, JSONObject.toJSONString(user), true);

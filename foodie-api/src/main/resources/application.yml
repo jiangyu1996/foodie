@@ -4,7 +4,6 @@
 #
 ############################################################
 server:
-  port: 8088
   tomcat:
     uri-encoding: UTF-8
   max-http-header-size: 80KB
@@ -21,7 +20,6 @@ spring:
   datasource:                                           # 数据源的相关配置
     type: com.zaxxer.hikari.HikariDataSource          # 数据源类型：HikariCP
     driver-class-name: com.mysql.jdbc.Driver          # mysql驱动
-    url: jdbc:mysql://120.27.3.114:3306/foodie_shop?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
     username: root
     password: okay1234
     hikari:
@@ -47,8 +45,6 @@ spring:
 mybatis:
   type-aliases-package: cn.decentchina.pojo          # 所有POJO类所在包路径
   mapper-locations: classpath:mapper/*.xml      # mapper映射文件
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # 分页插件配置
 mapper:
   mappers: my.MyMapper
