@@ -19,6 +19,8 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
-
+    <build>
+        <!--生成war包的名称-->
+        <finalName>foodie-api</finalName>
+    </build>
 </project>
