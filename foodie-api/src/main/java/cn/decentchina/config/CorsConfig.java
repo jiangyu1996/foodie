@@ -23,6 +23,11 @@ public class CorsConfig implements WebMvcConfigurer {
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("http://localhost:8080");
+        corsConfiguration.addAllowedOrigin("http://shop.jiangy.top:8080");
+        corsConfiguration.addAllowedOrigin("http://center.jiangy.top:8080");
+        corsConfiguration.addAllowedOrigin("http://shop.jiangy.top");
+        corsConfiguration.addAllowedOrigin("http://center.jiangy.top");
+
         // 是否允许携带cookie
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.addAllowedMethod("*");
