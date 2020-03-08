@@ -15,6 +15,10 @@ server:
 #
 ############################################################
 spring:
+  redis:
+    password: okay1234!
+    host: 120.27.3.114
+    port: 6379
   profiles:
     active: dev
   datasource:                                           # 数据源的相关配置

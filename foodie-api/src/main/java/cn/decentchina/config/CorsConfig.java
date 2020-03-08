@@ -27,6 +27,7 @@ public class CorsConfig implements WebMvcConfigurer {
         corsConfiguration.addAllowedOrigin("http://center.jiangy.top:8080");
         corsConfiguration.addAllowedOrigin("http://shop.jiangy.top");
         corsConfiguration.addAllowedOrigin("http://center.jiangy.top");
+        corsConfiguration.addAllowedOrigin("http://api.jiangy.top");
 
         // 是否允许携带cookie
         corsConfiguration.setAllowCredentials(true);

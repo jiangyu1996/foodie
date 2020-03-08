@@ -10,6 +10,7 @@ import cn.decentchina.pojo.User;
 import cn.decentchina.utils.CookieUtils;
 import cn.decentchina.utils.MD5Utils;
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author jiangyu
  * @date 2020/1/18
  */
+@Slf4j
 @RestController
 @RequestMapping("passport")
 public class PassPortController {
@@ -87,7 +89,8 @@ public class PassPortController {
         setNullProperty(user);
         // 3.cookie
         String userJson = JSONObject.toJSONString(user);
-        CookieUtils.setCookie(request, response, CommonConstant.USER, JSONObject.toJSONString(user), true);
+        CookieUtils.setCookie(request, response, CommonConstant.USER, userJson, true);
+        log.info("登录设置cookie,[{}]", userJson);
         return new SimpleMessage(user);
     }
 
